@@ -7,9 +7,12 @@ set -e
 #
 # Microsoft Edge on Win10 (x64) Stable (14.14393)
 #
-wget --directory-prefix=tmp https://az792536.vo.msecnd.net/vms/VMBuild_20160810/Vagrant/MSEdge/MSEdge.Win10_RS1.Vagrant.zip \
-&& 7za -otmp x tmp/MSEdge.Win10_RS1.Vagrant.zip \
-&& vagrant box add tmp/dev-msedge.box --name "Win10_Edge"
+if [ ! -f "tmp/dev-msedge.box" ]
+then
+  wget --directory-prefix=tmp https://az792536.vo.msecnd.net/vms/VMBuild_20160810/Vagrant/MSEdge/MSEdge.Win10_RS1.Vagrant.zip \
+  && 7za -otmp x tmp/MSEdge.Win10_RS1.Vagrant.zip \
+  && vagrant box add tmp/dev-msedge.box --name "Win10_Edge"
+fi
 
 #
 # Microsoft Web Driver
@@ -17,24 +20,36 @@ wget --directory-prefix=tmp https://az792536.vo.msecnd.net/vms/VMBuild_20160810/
 #
 # Release 14393 (Version: 3.14393 | Edge version supported: 14.14393)
 #
-wget --directory-prefix=tmp https://download.microsoft.com/download/3/2/D/32D3E464-F2EF-490F-841B-05D53C848D15/MicrosoftWebDriver.exe
+if [ ! -f "tmp/MicrosoftWebDriver.exe" ]
+then
+  wget --directory-prefix=tmp https://download.microsoft.com/download/3/2/D/32D3E464-F2EF-490F-841B-05D53C848D15/MicrosoftWebDriver.exe
+fi
 
 #
 # Java Runtime Environment
 #
 # Version 8u131 (for Windows x64)
 #
-wget --directory-prefix=tmp --no-check-certificate --no-cookies \
-  --header "Cookie: oraclelicense=accept-securebackup-cookie" \
-  http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jre-8u131-windows-x64.exe
+if [ ! -f "tmp/jre-8u131-windows-x64.exe" ]
+then
+  wget --directory-prefix=tmp --no-check-certificate --no-cookies \
+    --header "Cookie: oraclelicense=accept-securebackup-cookie" \
+    http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jre-8u131-windows-x64.exe
+fi
 
 #
 # Selenium IE Driver and Server
 #
 # Version 3.4.0
 #
-wget --directory-prefix=tmp http://selenium-release.storage.googleapis.com/3.4/IEDriverServer_x64_3.4.0.zip
-wget --directory-prefix=tmp http://selenium-release.storage.googleapis.com/3.4/selenium-server-standalone-3.4.0.jar
+if [ ! -f "tmp/IEDriverServer_x64_3.4.0.zip" ]
+then
+  wget --directory-prefix=tmp http://selenium-release.storage.googleapis.com/3.4/IEDriverServer_x64_3.4.0.zip
+fi
+if [ ! -f "tmp/selenium-server-standalone-3.4.0.jar" ]
+then
+  wget --directory-prefix=tmp http://selenium-release.storage.googleapis.com/3.4/selenium-server-standalone-3.4.0.jar
+fi
 
 # Prepare shared folder
 rm -rf shared && mkdir shared
